@@ -1,0 +1,52 @@
+{
+  "name": ".",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite dev --port 15080",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest run",
+    "lint": "tsc --noEmit && eslint .",
+    "fmt": "eslint --fix .; dprint fmt"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.5",
+    "@mui/material": "^7.3.5",
+    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-router": "^1.132.0",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/react-router-ssr-query": "^1.131.7",
+    "@tanstack/react-start": "^1.132.0",
+    "@tanstack/react-store": "^0.8.0",
+    "@tanstack/router-plugin": "^1.132.0",
+    "lucide-react": "^0.544.0",
+    "nitro": "latest",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-markdown": "^10.1.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "devDependencies": {
+    "@tanstack/devtools-vite": "^0.3.11",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "dprint": "^0.50.2",
+    "eslint": "^9.39.1",
+    "eslint-plugin-import": "^2.32.0",
+    "happy-dom": "^20.0.10",
+    "jsdom": "^27.0.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.48.0",
+    "vite": "^7.1.7",
+    "vitest": "^3.0.5",
+    "web-vitals": "^5.1.0"
+  }
+}
