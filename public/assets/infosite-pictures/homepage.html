@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NeedList.ORG – We help charities get what they need</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --yellow: #f7b500;
+      --yellow-light: #fff6d4;
+      --blue: #0e314c;
+      --blue-dark: #052031;
+      --text: #14324a;
+      --muted: #5b6f80;
+      --bg: #fcfcfa;
+      --border-radius-pill: 999px;
+      --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 12px;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    h1 {
+      font-size: 40px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 28px;
+    }
+
+    h3 {
+      font-size: 22px;
+    }
+
+    p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      padding: 56px 24px;
+    }
+
+    .section-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* HEADER / HERO */
+
+    .hero {
+      padding-top: 32px;
+      padding-bottom: 72px;
+    }
+
+    .hero-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .hero-logo img {
+      height: 52px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn {
+      border-radius: var(--border-radius-pill);
+      padding: 10px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      border: 2px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--yellow);
+      color: var(--blue-dark);
+      border-color: var(--yellow);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--blue);
+      border-color: #d6dde3;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(0.96);
+    }
+
+    .btn-outline:hover {
+      background-color: #f3f6f8;
+    }
+
+    .hero-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-left {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-left-card {
+      position: relative;
+    }
+
+    .hero-left-shadow {
+      position: absolute;
+      left: -32px;
+      bottom: -32px;
+      width: calc(100% - 16px);
+      height: 96%;
+      background-color: var(--yellow);
+      border-radius: 24px;
+      z-index: 0;
+    }
+
+    .hero-left img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      max-width: 600px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .hero-right-eyebrow {
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-right h1 {
+      margin-bottom: 16px;
+    }
+
+    .hero-right p {
+      max-width: 500px;
+      font-size: 17px;
+    }
+
+    .hero-right p strong {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .hero-cta-row {
+      margin-top: 24px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .hero-cta-row .btn-primary {
+      padding-inline: 40px;
+    }
+
+    /* MISSION BAND */
+
+    .mission-band {
+      background-color: var(--yellow);
+      text-align: center;
+      padding-block: 56px;
+      color: var(--blue);
+    }
+
+    .mission-band h2 {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+      margin-bottom: 16px;
+    }
+
+    .mission-band p {
+      max-width: 640px;
+      margin: 0 auto;
+      color: var(--blue);
+      font-size: 18px;
+    }
+
+    /* SOLUTION + HOW IT WORKS */
+
+    .solution {
+      background-color: var(--bg);
+      text-align: center;
+    }
+
+    .solution h2 {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 8px;
+    }
+
+    .solution-intro {
+      margin-bottom: 40px;
+      font-size: 17px;
+    }
+
+    .solution-intro strong {
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+      text-align: left;
+    }
+
+    .how-text h3 {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 16px;
+    }
+
+    .how-text ol {
+      padding-left: 20px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .how-text li {
+      margin-bottom: 12px;
+    }
+
+    .how-text li strong {
+      color: var(--blue);
+    }
+
+    .how-image img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: var(--shadow-card);
+      display: block;
+    }
+
+    /* OUTCOMES */
+
+    .outcomes {
+      background-color: var(--bg);
+    }
+
+    .outcomes h2 {
+      text-align: center;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 32px;
+    }
+
+    .outcomes-columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .outcome-column h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .outcome-column p strong {
+      color: var(--blue);
+    }
+
+    .outcomes-images {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .outcomes-images img {
+      max-width: 260px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: var(--shadow-card);
+      display: block;
+    }
+
+    /* CASE STUDY */
+
+    .case-study {
+      background-color: #fff8dd;
+    }
+
+    .case-study h2 {
+      text-align: center;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 32px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 32px;
+      margin-bottom: 32px;
+      align-items: flex-start;
+    }
+
+    .case-date {
+      color: var(--yellow);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .case-points p {
+      margin-bottom: 10px;
+    }
+
+    .case-image img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: var(--shadow-card);
+      display: block;
+    }
+
+    .quote-card {
+      border-radius: 18px;
+      border: 1px solid #d6dde3;
+      background-color: #fff;
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+
+    .quote-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--yellow);
+    }
+
+    .quote-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .quote-text {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .quote-text strong {
+      color: var(--yellow);
+      font-size: 26px;
+      margin-right: 4px;
+    }
+
+    .quote-author {
+      margin-top: 8px;
+      font-weight: 600;
+      color: var(--blue);
+    }
+
+    .quote-author span {
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* TEAM */
+
+    .team {
+      background-color: var(--bg);
+      text-align: center;
+    }
+
+    .team h2 {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 16px;
+    }
+
+    .team-intro {
+      max-width: 700px;
+      margin: 0 auto 32px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 40px;
+      text-align: left;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .team-column h3 {
+      font-size: 18px;
+      color: var(--yellow);
+      margin-bottom: 8px;
+    }
+
+    .team-column ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .team-column li {
+      margin-bottom: 6px;
+    }
+
+    /* CONTACT */
+
+    .contact {
+      background-color: var(--yellow-light);
+      text-align: center;
+    }
+
+    .contact h2 {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 16px;
+    }
+
+    .contact-intro {
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+
+    .contact-form {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #d6dde3;
+      padding: 10px 12px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 2px rgba(247, 181, 0, 0.25);
+    }
+
+    .field textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .contact-submit {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .contact-submit .btn-primary {
+      padding-inline: 80px;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      background-color: var(--blue-dark);
+      color: #ffffff;
+      padding: 32px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .footer-logo img {
+      height: 48px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: #e4edf5;
+    }
+
+    .footer-links a {
+      color: #e4edf5;
+      margin-right: 16px;
+      font-size: 13px;
+    }
+
+    .footer-contact-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .footer-contact-email a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .footer-contact-email a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 960px) {
+      .hero-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-right p {
+        margin-inline: auto;
+      }
+
+      .hero-cta-row {
+        justify-content: center;
+      }
+
+      .how-grid,
+      .case-grid,
+      .outcomes-columns,
+      .team-grid,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-card {
+        grid-template-columns: 1fr;
+        text-align: left;
+      }
+
+      .hero-left-shadow {
+        display: none;
+      }
+
+      .hero-left img {
+        max-width: 480px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 30px;
+      }
+
+      .hero-top-bar {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .hero-actions {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .btn {
+        padding-inline: 20px;
+      }
+
+      .section {
+        padding-inline: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HERO -->
+    <section class="section hero">
+      <div class="section-inner">
+        <div class="hero-top-bar">
+          <div class="hero-logo">
+            <!-- Logo -->
+            <img src="Logo_P.png" alt="NeedList.ORG logo" />
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary">Donate Now</button>
+            <button class="btn btn-outline">Log In / Sign Up</button>
+          </div>
+        </div>
+
+        <div class="hero-main">
+          <div class="hero-left">
+            <div class="hero-left-card">
+              <!-- Donation page mockup -->
+              <img src="Landing_App_Mockup.png" alt="Donation NeedList mockup" />
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="hero-right-eyebrow">
+              Powered by NeedList.ORG
+            </div>
+            <h1>We help charities get what they need - 100% free.</h1>
+            <p>
+              Our <strong>free donation registry</strong> matches
+              <strong>charity needs</strong> with
+              <strong>suppliers</strong> while showing
+              <strong>donors</strong> how every cent is spent.
+            </p>
+            <p>
+              We're pragmatic, transparent, secure, and dependable. Currently
+              piloting with select charities in the US and Canada.
+              Interested? Please connect!
+            </p>
+            <div class="hero-cta-row">
+              <button class="btn btn-primary">Contact Us</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section class="section mission-band">
+      <div class="section-inner">
+        <h2>Mission</h2>
+        <p>
+          We aim to redefine charitable giving with unparalleled pragmatism,
+          transparency, security, and dependability.
+        </p>
+      </div>
+    </section>
+
+    <!-- SOLUTION + HOW IT WORKS -->
+    <section class="section solution">
+      <div class="section-inner">
+        <h2>Solution</h2>
+        <p class="solution-intro">
+          Like a wedding registry, charities use <strong>NeedList.ORG</strong>
+          to list needed goods and services ("<strong>NeedLists</strong>")
+          from suppliers.
+        </p>
+
+        <div class="how-grid">
+          <div class="how-text">
+            <h3>How It Works</h3>
+            <ol>
+              <li>
+                <strong>Charities</strong> make <strong>NeedLists</strong> of
+                specific items and quantities they need.
+              </li>
+              <li>
+                <strong>NeedList.ORG</strong> collects and restricts donations
+                to only buy/deliver approved items; issues
+                <strong>donors tax receipts</strong>.
+              </li>
+              <li>
+                Upon delivery, <strong>charities</strong> share short videos
+                to thank and show <strong>donors</strong> their impact,
+                strengthening connections.
+              </li>
+            </ol>
+          </div>
+          <div class="how-image">
+            <!-- Phone donation flow image -->
+            <img src="How_it_work_3.png" alt="How NeedList.ORG works" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTCOMES -->
+    <section class="section outcomes">
+      <div class="section-inner">
+        <h2>Outcomes</h2>
+
+        <div class="outcomes-columns">
+          <div class="outcome-column">
+            <h3>Charities</h3>
+            <p>
+              <strong>Charities</strong> get what they need without the usual
+              logistics, marketing, and admin hassles.
+            </p>
+          </div>
+          <div class="outcome-column">
+            <h3>Donors</h3>
+            <p>
+              <strong>Donors</strong> get full transparency on how funds are
+              used, skyrocketing trust.
+            </p>
+          </div>
+          <div class="outcome-column">
+            <h3>Suppliers</h3>
+            <p>
+              <strong>Suppliers</strong> get recognition for supporting
+              charities, earning favor from <strong>donors</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="outcomes-images">
+          <!-- Three circular outcome images -->
+          <img src="90b40b10-b002-4580-94fd-03a5d1b23b1d.png" alt="Charity outcome" />
+          <img src="7661d97b-f078-4a24-8759-cb1b8ebf64c9.png" alt="Donor outcome" />
+          <img src="e0415d1c-06cc-45c4-97a7-66c8d93a1462.png" alt="Supplier outcome" />
+          <!-- If you prefer, swap any of these for How_it_work_2.png, Landing_App_Mockup.png, etc. -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section class="section case-study">
+      <div class="section-inner">
+        <h2>Case Study</h2>
+
+        <div class="case-grid">
+          <div class="case-points">
+            <div class="case-date">Dec 12, 2024</div>
+            <p>
+              • NeedList.ORG demoed the first "alpha test" NeedList with the
+              <strong>St. Felix Centre</strong> (a Toronto homelessness
+              charity) at a holiday party.
+            </p>
+            <p>
+              • $562 of winter clothes for the homeless was fully-funded that
+              night by 20 strangers.
+            </p>
+            <p>
+              • We collected donations, issued tax receipts, and delivered
+              items.
+            </p>
+          </div>
+          <div class="case-image">
+            <!-- Event photo -->
+            <img src="cb12de79-f4af-4b8a-8ff8-f1044cb9c0b9.png" alt="NeedList case study event" />
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <div class="quote-avatar">
+            <!-- Avatar (you can swap this to any portrait) -->
+            <img src="2795d3aa-28d8-4261-b305-1be641a59ebe.png" alt="Vanessa Li" />
+          </div>
+          <div class="quote-text">
+            <p>
+              <strong>“</strong>Thank you so much for your wonderful update! I
+              appreciate the helpful breakdown for clarity on the process. It
+              was lovely meeting your team. We feel so honoured to be
+              NeedList.ORG's pilot organization! Congratulations on the
+              enthusiasm from donors and the fantastic progress. I want to
+              introduce you to [my friend's shelter providing] critical support
+              for women and children escaping violence, homelessness, and
+              oppression.<strong>”</strong>
+            </p>
+            <div class="quote-author">
+              Vanessa Li
+              <span>, Communications Manager, St. Felix Centre</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section team">
+      <div class="section-inner">
+        <h2>Team</h2>
+        <p class="team-intro">
+          We’re a group of pragmatist tech nerds dedicated to making charitable
+          giving Secure, Accountable, Free, and Effective.
+        </p>
+
+        <div class="team-grid">
+          <div class="team-column">
+            <h3>Board:</h3>
+            <ul>
+              <li>veteran nonprofit leaders</li>
+              <li>ex-FBI anti-crime intelligence agent</li>
+              <li>lawyer/professor</li>
+              <li>IT entrepreneur/professor</li>
+            </ul>
+          </div>
+          <div class="team-column">
+            <h3>Advisors:</h3>
+            <ul>
+              <li>retail grocery AI/ML CTO</li>
+              <li>cybersecurity "watchdog" CEO</li>
+              <li>philanthropists, charities</li>
+              <li>Google Labs director of product mgmt</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact">
+      <div class="section-inner">
+        <h2>Contact</h2>
+        <p class="contact-intro">
+          We need all the support we can get – especially kind words!
+          Please get in touch.
+        </p>
+
+        <form class="contact-form">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" type="text" placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label for="email">Your email address</label>
+            <input id="email" type="email" placeholder="Your email address" />
+          </div>
+          <div class="field">
+            <label for="message">
+              Your message (please also include your organization name if applicable!)
+            </label>
+            <textarea id="message"
+              placeholder="Your message (please also include your organization name if applicable!)"></textarea>
+          </div>
+
+          <div class="contact-submit">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-logo">
+            <img src="Logo_P.png" alt="NeedList.ORG logo" />
+          </div>
+          <div class="footer-text">
+            US 501(c)(3) Public Charity (EIN 992145356)<br />
+            Canadian Registered Charity (BN 750173403RR0001)
+          </div>
+          <div class="footer-links" style="margin-top: 8px;">
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-contact-title">Contact</div>
+          <div class="footer-contact-email">
+            <a href="mailto:info@needlist.org">info@needlist.org</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

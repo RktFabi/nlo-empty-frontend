@@ -1,0 +1,16 @@
+export const FONT_FAMILY_PRIMARY = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+export const FONT_FAMILY_PRIMARY_SHORT = '"Helvetica Neue", sans-serif';
+export const FONT_FAMILY_HEADER = '"Noto Sans JP", sans-serif';
+export const FONT_FAMILY_ALT_HEADER = '"Open Sans", sans-serif';
+export const FONT_SIZE_BODY_SM = '14px';
+export const FONT_SIZE_BODY_MD = '16px';
+export const FONT_SIZE_BODY_LG = '18px';
+export const FONT_SIZE_HEADING_SM = '20px';
+export const FONT_SIZE_HEADING_MD = '24px';
+export const FONT_SIZE_HEADING_LG = '32px';
+export const FONT_SIZE_HEADING_HERO = '38.3px';
+export const FONT_SIZE_HEADING_XL = '48px';
+export const FONT_WEIGHT_NORMAL = 400;
+export const FONT_WEIGHT_MEDIUM = 500;
+export const FONT_WEIGHT_SEMIBOLD = 600;
+export const FONT_WEIGHT_BOLD = 700;
