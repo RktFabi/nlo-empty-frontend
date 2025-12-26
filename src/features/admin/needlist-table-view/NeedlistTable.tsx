@@ -1,4 +1,5 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Link } from '@tanstack/react-router';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { StatusBadge } from '@/components/StatusBadge';
@@ -74,16 +75,19 @@ export function NeedlistTable() {
                 </TableCell>
                 <TableCell align="right">
                   <Box
-                    component="button"
-                    type="button"
-                    title="View Details"
-                    style={{
+                    component={Link}
+                    to={`/admin/needlist-detail-view?needlistId=${need.id}`}
+                    sx={{
+                      display: 'inline-flex', // 🔴 critical
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       background: 'transparent',
                       border: `1px solid ${COLORS.inputBorder}`,
                       borderRadius: '999px',
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
+                      textDecoration: 'none', // 🔴 prevent anchor underline
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} />
