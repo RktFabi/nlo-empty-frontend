@@ -29,7 +29,7 @@ export function HomeHeader() {
         sx={{
           fontSize: FONT_SIZE_BODY_LG,
           color: COLORS.mutedText,
-          mb: 4,
+          mb: 2,
           maxWidth: PAGE_MAX_WIDTH,
           mx: 'auto',
         }}
@@ -76,11 +76,8 @@ export function HomeHeader() {
             },
           }}
         >
-          <Box component="span" sx={{ fontSize: FONT_SIZE_HEADING_MD }}>
-            ✌️
-          </Box>
           <Typography sx={{ fontWeight: FONT_WEIGHT_SEMIBOLD, fontSize: FONT_SIZE_BODY_LG }}>
-            Peace to our big boss Shaharris!
+            Good luck and have fun!
           </Typography>
           <Box component="span" sx={{ fontSize: FONT_SIZE_HEADING_MD }}>
             ✊

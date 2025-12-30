@@ -4,7 +4,6 @@ import { COLORS } from '@/constants/design/colors';
 import { PAGE_MAX_WIDTH } from '@/constants/design/layout_constraints';
 import { HomeCtaButton } from '@/features/home/HomeCtaButton';
 import { HomeHeader } from '@/features/home/HomeHeader';
-import { HomePikachu } from '@/features/home/HomePikachu';
 import { HomeTaskSection } from '@/features/home/HomeTaskSection';
 
 // --- MAIN APP COMPONENT ---
@@ -38,8 +37,6 @@ export const HomePage = () => {
         <HomeTaskSection />
         <HomeCtaButton />
       </Box>
-
-      <HomePikachu />
     </Box>
   );
 };
