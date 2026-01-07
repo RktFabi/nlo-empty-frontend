@@ -34,6 +34,23 @@ const STATUS_STYLES: Record<string, StatusStyle> = {
       />
     ),
   },
+  Live: {
+    color: COLORS.success,
+    bg: COLORS.successTint,
+    border: COLORS.successTint,
+    icon: (
+      <Box
+        component="span"
+        sx={{
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          bgcolor: COLORS.success,
+          display: 'inline-block',
+        }}
+      />
+    ),
+  },
   Pending: {
     color: COLORS.accentYellow,
     bg: COLORS.accentYellowTint,
@@ -43,6 +60,12 @@ const STATUS_STYLES: Record<string, StatusStyle> = {
   Fulfilled: {
     color: COLORS.mutedText,
     bg: COLORS.surface,
+    border: COLORS.inputBorder,
+    icon: <CheckCircle size={12} />,
+  },
+  Draft: {
+    color: COLORS.mutedText,
+    bg: COLORS.accentYellowTint,
     border: COLORS.inputBorder,
     icon: <CheckCircle size={12} />,
   },
