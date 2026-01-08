@@ -62,7 +62,7 @@ export function HomeTaskSection() {
               fontSize: FONT_SIZE_BODY_SM,
             }}
           >
-            <li>One page for listing a NL/Transaction/or Tax receipts</li>
+            <li>1 page for listing a NL/Transaction/or Tax receipts</li>
             <li>Add a button which will lead to the detail of the clicked item</li>
           </Box>
         </TaskItem>
