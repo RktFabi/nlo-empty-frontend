@@ -8,6 +8,7 @@ export function HomeCtaButton() {
   return (
     <Button
       variant="contained"
+      href="admin/needlist-table-view"
       sx={{
         width: BUTTON_WIDTH_LG,
         height: BUTTON_HEIGHT_MD,
