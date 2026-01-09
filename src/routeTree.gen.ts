@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminNeedlistTableViewRouteImport } from './routes/admin/needlist-table-view'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -28,35 +29,49 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminNeedlistTableViewRoute = AdminNeedlistTableViewRouteImport.update({
+  id: '/admin/needlist-table-view',
+  path: '/admin/needlist-table-view',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms': typeof TermsRoute
+  '/admin/needlist-table-view': typeof AdminNeedlistTableViewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms': typeof TermsRoute
+  '/admin/needlist-table-view': typeof AdminNeedlistTableViewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms': typeof TermsRoute
+  '/admin/needlist-table-view': typeof AdminNeedlistTableViewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/privacy-policy' | '/terms'
+  fullPaths: '/' | '/privacy-policy' | '/terms' | '/admin/needlist-table-view'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacy-policy' | '/terms'
-  id: '__root__' | '/' | '/privacy-policy' | '/terms'
+  to: '/' | '/privacy-policy' | '/terms' | '/admin/needlist-table-view'
+  id:
+    | '__root__'
+    | '/'
+    | '/privacy-policy'
+    | '/terms'
+    | '/admin/needlist-table-view'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   TermsRoute: typeof TermsRoute
+  AdminNeedlistTableViewRoute: typeof AdminNeedlistTableViewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +97,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/needlist-table-view': {
+      id: '/admin/needlist-table-view'
+      path: '/admin/needlist-table-view'
+      fullPath: '/admin/needlist-table-view'
+      preLoaderRoute: typeof AdminNeedlistTableViewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +111,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   TermsRoute: TermsRoute,
+  AdminNeedlistTableViewRoute: AdminNeedlistTableViewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
