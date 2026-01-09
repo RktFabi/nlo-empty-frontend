@@ -18,5 +18,7 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "dprint.dprint"
-  }
+  },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true
 }
