@@ -16,18 +16,11 @@
 import * as runtime from '../runtime';
 import type {
   AllNeedListsDto,
-  CreateNeedListDto,
 } from '../models/index';
 import {
     AllNeedListsDtoFromJSON,
     AllNeedListsDtoToJSON,
-    CreateNeedListDtoFromJSON,
-    CreateNeedListDtoToJSON,
 } from '../models/index';
-
-export interface NeedListControllerCreateRequest {
-    createNeedListDto: CreateNeedListDto;
-}
 
 export interface NeedListControllerFindAllRequest {
     sort?: string;
@@ -43,42 +36,6 @@ export interface NeedListControllerFindOneRequest {
  * 
  */
 export class NeedListApi extends runtime.BaseAPI {
-
-    /**
-     */
-    async needListControllerCreateRaw(requestParameters: NeedListControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['createNeedListDto'] == null) {
-            throw new runtime.RequiredError(
-                'createNeedListDto',
-                'Required parameter "createNeedListDto" was null or undefined when calling needListControllerCreate().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-
-        let urlPath = `/need-list`;
-
-        const response = await this.request({
-            path: urlPath,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateNeedListDtoToJSON(requestParameters['createNeedListDto']),
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async needListControllerCreate(requestParameters: NeedListControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.needListControllerCreateRaw(requestParameters, initOverrides);
-    }
 
     /**
      */
@@ -121,7 +78,7 @@ export class NeedListApi extends runtime.BaseAPI {
 
     /**
      */
-    async needListControllerFindOneRaw(requestParameters: NeedListControllerFindOneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async needListControllerFindOneRaw(requestParameters: NeedListControllerFindOneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AllNeedListsDto>>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -144,13 +101,14 @@ export class NeedListApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AllNeedListsDtoFromJSON));
     }
 
     /**
      */
-    async needListControllerFindOne(requestParameters: NeedListControllerFindOneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.needListControllerFindOneRaw(requestParameters, initOverrides);
+    async needListControllerFindOne(requestParameters: NeedListControllerFindOneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<AllNeedListsDto>> {
+        const response = await this.needListControllerFindOneRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }

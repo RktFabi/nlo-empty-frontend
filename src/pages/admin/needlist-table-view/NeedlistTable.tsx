@@ -1,36 +1,39 @@
 // src/features/admin/needlist-table-view/NeedlistTable.tsx
-import {
-  Box,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Typography,
-} from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
+import { StatusBadge } from '@/components/common/ui/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
-import {
-  FONT_SIZE_BODY_SM,
-  FONT_WEIGHT_SEMIBOLD,
-  FONT_WEIGHT_BOLD,
-  FONT_WEIGHT_MEDIUM,
-  FONT_FAMILY_PRIMARY,
-} from '@/constants/design/typography';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
 import { NEEDS } from '@/constants/design/table_styles';
-import { StatusBadge } from '@/components/common/ui/StatusBadge';
+import {
+  FONT_FAMILY_PRIMARY,
+  FONT_SIZE_BODY_SM,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_MEDIUM,
+  FONT_WEIGHT_SEMIBOLD,
+} from '@/constants/design/typography';
 
-export function NeedlistTable() {
+import { AllNeedListsDto } from '@/api/generated';
+import { formatDate, formatNumber } from '@/utils/FormatUtils';
+
+type NeedlistTableProps = { // define the type of what we should pass to the Feature Component
+  needs: AllNeedListsDto[],
+};
+
+export function NeedlistTable({ needs }: NeedlistTableProps) {
+  const itemCount = needs.length;
+  const countLabel = itemCount === 0
+    ? 'No items to display'
+    : `Showing ${itemCount} item${itemCount === 1 ? '' : 's'}`; // handling no items
+
   return (
     <Box>
       <TableContainer sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow sx={{ bgcolor: COLORS.surface }}>
-              {['ID', 'Need', 'Organization', 'Category', 'Quantity', 'Status', 'Action'].map((label) => (
+              {['ID', 'Name', 'status', 'total donated', 'total price'].map((label) => (
                 <TableCell
                   key={label}
                   sx={{
@@ -48,17 +51,17 @@ export function NeedlistTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {NEEDS.map((need) => (
+            {needs.map((need) => (
               <TableRow key={need.id} sx={{ '&:hover': { bgcolor: COLORS.accentYellowTint } }}>
                 <TableCell sx={{ fontFamily: FONT_FAMILY_PRIMARY, color: COLORS.mutedText }}>
                   {need.id}
                 </TableCell>
                 <TableCell>
                   <Typography sx={{ fontWeight: FONT_WEIGHT_BOLD, color: COLORS.primaryText }}>
-                    {need.title}
+                    {need.needlistName}
                   </Typography>
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText }}>{need.org}</TableCell>
+                <TableCell sx={{ color: COLORS.mutedText }}>{need.needlistStatus}</TableCell>
                 <TableCell>
                   <Box
                     sx={{
@@ -74,14 +77,14 @@ export function NeedlistTable() {
                     <Typography
                       sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}
                     >
-                      {need.category}
+                      {need.totalDonated}
                     </Typography>
                   </Box>
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>{need.quantity}</TableCell>
-                <TableCell>
-                  <StatusBadge status={need.status} />
+                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>
+                  {need.totalPrice}
                 </TableCell>
+
                 <TableCell align="right">
                   <Box
                     component="button"
@@ -119,7 +122,7 @@ export function NeedlistTable() {
         }}
       >
         <Typography sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText }}>
-          Showing 1-7 of 24 items
+          {countLabel}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Box
