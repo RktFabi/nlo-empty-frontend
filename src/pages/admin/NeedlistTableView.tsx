@@ -1,5 +1,3 @@
-// src/pages/admin/NeedlistTableView.tsx
-
 import { AllNeedListsDto, NeedListControllerFindAllRequest } from '@/api/generated';
 import { PageBackground } from '@/components/PageBackground';
 import { COLORS } from '@/constants/design/colors';
@@ -10,48 +8,50 @@ import { NeedlistTable } from '@/pages/admin/needlist-table-view/NeedlistTable';
 import { NeedlistTableFilters } from '@/pages/admin/needlist-table-view/NeedlistTableFilters';
 import { NeedlistTableHeader } from '@/pages/admin/needlist-table-view/NeedlistTableHeader';
 import { getNeedlists } from '@/services/NeedListApiService';
-import { Box, CircularProgress, Typography } from '@mui/material'; // for loading
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useSearch, useNavigate } from '@tanstack/react-router'; // Added hooks
 import React from 'react';
 
-let request: NeedListControllerFindAllRequest = {
-  limit: 11,
-};
-
 export const NeedlistTableView = () => {
+  // 1. Hook into the Route Search Params
+  const searchParams = useSearch({ from: '/admin/needlist-table-view' });
+  const navigate = useNavigate({ from: '/admin/needlist-table-view' });
+  const selectedId = searchParams.needlistId;
+
   const [limit, setLimit] = React.useState(10);
 
   const handleChange = (event: SelectChangeEvent<number>) => {
-    setLimit(event.target.value);
-    console.log(event.target.value);
+    setLimit(Number(event.target.value));
   };
 
-  request = {
+  // 2. Navigation handlers for the sliding panel
+  const handleOpenPanel = (id: string) => {
+    navigate({ search: (prev) => ({ ...prev, needlistId: id }) });
+  };
+
+  const handleClosePanel = () => {
+    navigate({ search: (prev) => ({ ...prev, needlistId: undefined }) });
+  };
+
+  const request: NeedListControllerFindAllRequest = {
     limit: limit,
   };
 
   const needlistsQuery = useQuery<AllNeedListsDto[]>({
-    queryKey: ['needlists', request] as const,
-
+    queryKey: ['needlists', limit] as const, // Added limit to key to trigger refetch
     queryFn: async () => {
       const response = await getNeedlists(request);
-      if (!response) {
-        throw new Error('Unable to load needlists right now.');
-      }
+      if (!response) throw new Error('Unable to load needlists right now.');
       return response;
     },
   });
 
-  const isLoading = needlistsQuery.isPending; // useQuery hanlding for page loading
-
-  let errorMessage: string | null = null;
-  if (needlistsQuery.isError) {
-    errorMessage = needlistsQuery.error instanceof Error
-      ? needlistsQuery.error.message
-      : 'Unable to load needlists right now.';
-  }
+  const isLoading = needlistsQuery.isPending;
+  const errorMessage = needlistsQuery.isError 
+    ? (needlistsQuery.error as Error).message 
+    : null;
 
   const needs = needlistsQuery.data ?? [];
 
@@ -73,29 +73,35 @@ export const NeedlistTableView = () => {
             value={limit}
             handleChange={handleChange}
           />
-          {isLoading
-            ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-                <CircularProgress size={32} />
-              </Box>
-            )
-            : null}
-          {!isLoading && errorMessage
-            ? (
-              <Box sx={{ px: 4, py: 5 }}>
-                <Typography
-                  sx={{
-                    color: COLORS.error,
-                    fontSize: FONT_SIZE_BODY_MD,
-                    fontWeight: FONT_WEIGHT_MEDIUM,
-                  }}
-                >
-                  {errorMessage}
-                </Typography>
-              </Box>
-            )
-            : null}
-          {!isLoading && !errorMessage ? <NeedlistTable needs={needs} /> : null}
+          
+          {isLoading && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+              <CircularProgress size={32} />
+            </Box>
+          )}
+
+          {!isLoading && errorMessage && (
+            <Box sx={{ px: 4, py: 5 }}>
+              <Typography
+                sx={{
+                  color: COLORS.error,
+                  fontSize: FONT_SIZE_BODY_MD,
+                  fontWeight: FONT_WEIGHT_MEDIUM,
+                }}
+              >
+                {errorMessage}
+              </Typography>
+            </Box>
+          )}
+
+          {!isLoading && !errorMessage && (
+            <NeedlistTable 
+              needs={needs} 
+              selectedId={selectedId} // Passing URL state down
+              onRowClick={handleOpenPanel} // Handler to open panel via URL
+              onClosePanel={handleClosePanel} // Handler to close panel via URL
+            />
+          )}
         </Box>
       </Box>
     </PageBackground>

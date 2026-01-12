@@ -1,11 +1,8 @@
-// src/features/admin/needlist-table-view/NeedlistTable.tsx
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { StatusBadge } from '@/components/common/ui/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
-
 import {
   FONT_FAMILY_PRIMARY,
   FONT_SIZE_BODY_SM,
@@ -15,17 +12,21 @@ import {
 } from '@/constants/design/typography';
 
 import { AllNeedListsDto } from '@/api/generated';
-import { formatDate, formatNumber } from '@/utils/FormatUtils';
+import { NeedlistDetailPanel } from './NeedlistDetailPanel'; // Import the panel
 
-type NeedlistTableProps = { // define the type of what we should pass to the Feature Component
-  needs: AllNeedListsDto[],
+
+type NeedlistTableProps = {
+  needs: AllNeedListsDto[];
+  selectedId: string | undefined;
+  onRowClick: (id: string) => void;
+  onClosePanel: () => void;
 };
 
-export function NeedlistTable({ needs }: NeedlistTableProps) {
+export function NeedlistTable({ needs, selectedId, onRowClick, onClosePanel }: NeedlistTableProps) {
   const itemCount = needs.length;
   const countLabel = itemCount === 0
     ? 'No items to display'
-    : `Showing ${itemCount} item${itemCount === 1 ? '' : 's'}`; // handling no items
+    : `Showing ${itemCount} item${itemCount === 1 ? '' : 's'}`;
 
   return (
     <Box>
@@ -48,11 +49,21 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                   {label}
                 </TableCell>
               ))}
+              <TableCell sx={{ borderBottom: `1px solid ${COLORS.inputBorder}` }} />
             </TableRow>
           </TableHead>
           <TableBody>
             {needs.map((need) => (
-              <TableRow key={need.id} sx={{ '&:hover': { bgcolor: COLORS.accentYellowTint } }}>
+              <TableRow 
+                key={need.id} 
+                hover
+                onClick={() => need.id && onRowClick(need.id)} // 2. Trigger URL update
+                sx={{ 
+                  cursor: 'pointer',
+                  bgcolor: selectedId === need.id ? COLORS.accentYellowTint : 'inherit',
+                  '&:hover': { bgcolor: COLORS.accentYellowTint } 
+                }}
+              >
                 <TableCell sx={{ fontFamily: FONT_FAMILY_PRIMARY, color: COLORS.mutedText }}>
                   {need.id}
                 </TableCell>
@@ -63,6 +74,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 </TableCell>
                 <TableCell sx={{ color: COLORS.mutedText }}>{need.needlistStatus}</TableCell>
                 <TableCell>
+                   {/* Donated Amount Box */}
                   <Box
                     sx={{
                       display: 'inline-flex',
@@ -74,9 +86,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                       border: `1px solid ${COLORS.inputBorder}`,
                     }}
                   >
-                    <Typography
-                      sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}
-                    >
+                    <Typography sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>
                       {need.totalDonated}
                     </Typography>
                   </Box>
@@ -86,17 +96,15 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 </TableCell>
 
                 <TableCell align="right">
-                  <Box
-                    component="button"
-                    type="button"
-                    title="View Details"
-                    style={{
-                      background: 'transparent',
+                   <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       border: `1px solid ${COLORS.inputBorder}`,
-                      borderRadius: '999px',
+                      borderRadius: '50%',
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
-                      cursor: 'pointer',
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} />
@@ -108,53 +116,44 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
         </Table>
       </TableContainer>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          gap: 2,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 3,
-          py: 2,
-          borderTop: `1px solid ${COLORS.inputBorder}`,
-          bgcolor: COLORS.surface,
-        }}
-      >
+      {/* Pagination Controls */}
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 3, py: 2, bgcolor: COLORS.surface }}>
         <Typography sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText }}>
           {countLabel}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          <Box
-            component="button"
-            type="button"
-            style={{
-              background: COLORS.background,
-              border: `1px solid ${COLORS.inputBorder}`,
-              borderRadius: '8px',
-              width: BUTTON_HEIGHT_SM,
-              height: BUTTON_HEIGHT_SM,
-              cursor: 'pointer',
-            }}
-          >
-            <ChevronLeft size={18} color={COLORS.mutedText} />
-          </Box>
-          <Box
-            component="button"
-            type="button"
-            style={{
-              background: COLORS.background,
-              border: `1px solid ${COLORS.inputBorder}`,
-              borderRadius: '8px',
-              width: BUTTON_HEIGHT_SM,
-              height: BUTTON_HEIGHT_SM,
-              cursor: 'pointer',
-            }}
-          >
-            <ChevronRight size={18} color={COLORS.primaryText} />
-          </Box>
+           <IconButtonWrapper icon={<ChevronLeft size={18} />} />
+           <IconButtonWrapper icon={<ChevronRight size={18} />} />
         </Box>
       </Box>
+
+      {/* 3. The Drawer: Controlled by the URL through props */}
+      <NeedlistDetailPanel 
+        selectedId={selectedId || null} 
+        onClose={onClosePanel} 
+      />
+    </Box>
+  );
+}
+
+// Simple helper component for the pagination buttons
+function IconButtonWrapper({ icon }: { icon: React.ReactNode }) {
+  return (
+    <Box
+      component="button"
+      sx={{
+        background: COLORS.background,
+        border: `1px solid ${COLORS.inputBorder}`,
+        borderRadius: '8px',
+        width: BUTTON_HEIGHT_SM,
+        height: BUTTON_HEIGHT_SM,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      {icon}
     </Box>
   );
 }
