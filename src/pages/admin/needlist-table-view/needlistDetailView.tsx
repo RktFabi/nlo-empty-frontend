@@ -139,16 +139,28 @@ export function NeedlistDetailView({ needId, onClose }: { needId?: string, onClo
         </Stack>
       </Box>
 
-      <Divider />
-
-      <Box sx={{ p: 2, bgcolor: '#ffffff' }}>
-        <Stack direction="row" spacing={2}>
-          <Button fullWidth variant="outlined" startIcon={<Edit3 size={18} />} sx={{ borderRadius: '12px', fontWeight: 'bold' }}>
-            Edit
-          </Button>
-          <Button fullWidth variant="contained" color="error" startIcon={<Trash2 size={18} />} sx={{ borderRadius: '12px', fontWeight: 'bold', boxShadow: 'none' }}>
-            Delete
-          </Button>
+    <Divider />
+<Box sx={{ p: 2, bgcolor: '#ffffff' }}>
+  <Stack direction="row" spacing={2}>
+    <Button 
+      fullWidth 
+      variant="outlined" 
+      startIcon={<Edit3 size={18} />}
+      onClick={onClose} // Just closes for now
+      sx={{ borderRadius: '12px', textTransform: 'none', fontWeight: 'bold', py: 1.2 }}
+    >
+      Edit
+    </Button>
+    <Button 
+      fullWidth 
+      variant="contained" 
+      color="error" 
+      startIcon={<Trash2 size={18} />}
+      onClick={onClose} // Just closes for now
+      sx={{ borderRadius: '12px', textTransform: 'none', fontWeight: 'bold', py: 1.2, boxShadow: 'none' }}
+    >
+      Delete
+    </Button>
         </Stack>
       </Box>
     </Box>
