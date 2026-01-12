@@ -13,3 +13,13 @@ export const getNeedlists = async (
     return null;
   }
 };
+
+export const getNeedlist = async (id: string): Promise<AllNeedListsDto | null> => {
+  try {
+    const response = await needListApi.needListControllerFindOne({ id });
+    return response ?? null;
+  } catch (err) {
+    console.error('get-needlist failed', err);
+    return null;
+  }
+};

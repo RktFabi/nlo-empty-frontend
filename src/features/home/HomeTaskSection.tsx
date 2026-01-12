@@ -99,7 +99,8 @@ function TaskItem({ icon, children }: PropsWithChildren<{ icon: ReactNode }>) {
       >
         {icon}
       </Box>
-      <Typography sx={{ color: COLORS.primaryText, lineHeight: 1.6 }}>
+
+      <Typography component="div" sx={{ color: COLORS.primaryText, lineHeight: 1.6 }}>
         {children}
       </Typography>
     </Box>
