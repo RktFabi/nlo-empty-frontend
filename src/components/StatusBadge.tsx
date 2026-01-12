@@ -38,7 +38,7 @@ const STATUS_STYLES: Record<string, StatusStyle> = {
     color: COLORS.accentYellow,
     bg: COLORS.accentYellowTint,
     border: COLORS.accentYellowTint,
-    icon: <Clock />,
+    icon: <Clock size={12}/>,
   },
   Fulfilled: {
     color: COLORS.mutedText,
