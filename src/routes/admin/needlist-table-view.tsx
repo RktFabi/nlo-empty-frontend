@@ -1,19 +1,6 @@
-import { StatusBadge } from '@/components/StatusBadge';
+import { NeedlistTableView } from '@/pages/admin/NeedlistTableView';
 import { createFileRoute } from '@tanstack/react-router';
-import { PageBackground } from '@/components/PageBackground';
-import { NeedlistTable } from '@/features/admin/needlist-table-view/NeedlistTable';
-import { NeedlistTableFilters } from '@/features/admin/needlist-table-view/NeedlistTableFilters';
 
 export const Route = createFileRoute('/admin/needlist-table-view')({
-  component: RouteComponent,
+  component: NeedlistTableView,
 });
-
-function RouteComponent() {
-  return (
-  <div>
-    <PageBackground />
-    <NeedlistTable />
-    <NeedlistTableFilters />
-    Hello "/admin/needlist-table-view"!
-  </div>);
-}
