@@ -5,7 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { StatusBadge } from '@/components/common/ui/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
-import { NEEDS } from '@/constants/design/table_styles';
+
 import {
   FONT_FAMILY_PRIMARY,
   FONT_SIZE_BODY_SM,

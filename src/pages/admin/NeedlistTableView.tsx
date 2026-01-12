@@ -1,24 +1,42 @@
 // src/pages/admin/NeedlistTableView.tsx
 
-import { AllNeedListsDto } from '@/api/generated';
+import { AllNeedListsDto, NeedListControllerFindAllRequest } from '@/api/generated';
 import { PageBackground } from '@/components/PageBackground';
+import { COLORS } from '@/constants/design/colors';
+import { PAGE_MAX_WIDTH } from '@/constants/design/layout_constraints';
+import { TABLE_CARD_BORDER_WIDTH, TABLE_CARD_RADIUS, TABLE_CARD_SHADOW } from '@/constants/design/table_styles';
 import { FONT_SIZE_BODY_MD, FONT_WEIGHT_MEDIUM } from '@/constants/design/typography';
 import { NeedlistTable } from '@/pages/admin/needlist-table-view/NeedlistTable';
 import { NeedlistTableFilters } from '@/pages/admin/needlist-table-view/NeedlistTableFilters';
 import { NeedlistTableHeader } from '@/pages/admin/needlist-table-view/NeedlistTableHeader';
 import { getNeedlists } from '@/services/NeedListApiService';
 import { Box, CircularProgress, Typography } from '@mui/material'; // for loading
+import { SelectChangeEvent } from '@mui/material/Select';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import React from 'react';
 
-import { COLORS } from '@/constants/design/colors';
-import { PAGE_MAX_WIDTH } from '@/constants/design/layout_constraints';
-import { TABLE_CARD_BORDER_WIDTH, TABLE_CARD_RADIUS, TABLE_CARD_SHADOW } from '@/constants/design/table_styles';
+let request: NeedListControllerFindAllRequest = {
+  limit: 11,
+};
 
 export const NeedlistTableView = () => {
+  const [limit, setLimit] = React.useState(10);
+
+  const handleChange = (event: SelectChangeEvent<number>) => {
+    setLimit(event.target.value);
+    console.log(event.target.value);
+  };
+
+  request = {
+    limit: limit,
+  };
+
   const needlistsQuery = useQuery<AllNeedListsDto[]>({
-    queryKey: ['needlists'] as const,
+    queryKey: ['needlists', request] as const,
+
     queryFn: async () => {
-      const response = await getNeedlists();
+      const response = await getNeedlists(request);
       if (!response) {
         throw new Error('Unable to load needlists right now.');
       }
@@ -51,7 +69,10 @@ export const NeedlistTableView = () => {
             overflow: 'hidden',
           }}
         >
-          <NeedlistTableFilters />
+          <NeedlistTableFilters
+            value={limit}
+            handleChange={handleChange}
+          />
           {isLoading
             ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>

@@ -1,21 +1,18 @@
 // src/features/admin/needlist-table-view/NeedlistTable.tsx
-import {
-  Box,
-  TextField,
-  InputAdornment,
-  IconButton,
-} from '@mui/material';
-
-import { Search, Filter } from 'lucide-react';
+import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 
 import { COLORS } from '@/constants/design/colors';
-import {
-  FONT_WEIGHT_MEDIUM,
-  FONT_SIZE_BODY_MD,
-} from '@/constants/design/typography';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
+import { FONT_SIZE_BODY_MD, FONT_WEIGHT_MEDIUM } from '@/constants/design/typography';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { Filter, Search } from 'lucide-react';
+import React from 'react';
+interface NeedlistTableFiltersProps {
+  value: number;
+  handleChange: (event: SelectChangeEvent<number>) => void;
+}
 
-export function NeedlistTableFilters() {
+export function NeedlistTableFilters({ value, handleChange }: NeedlistTableFiltersProps) {
   return (
     <Box
       sx={{
@@ -59,6 +56,23 @@ export function NeedlistTableFilters() {
           ),
         }}
       />
+
+      <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Limit</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={value}
+            label="Limit"
+            onChange={handleChange}
+          >
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
       <IconButton
         sx={{
