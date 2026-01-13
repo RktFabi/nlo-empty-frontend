@@ -1,36 +1,47 @@
-// Displays the admin needlist table with status badges and pagination.
 import {
-    Box,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-  } from '@mui/material';
-  import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-  
-  import { StatusBadge } from '@/components/StatusBadge';
-  import { COLORS } from '@/constants/design/colors';
-  import { NEEDS } from '@/constants/onboarding';
-  import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
-  import {
-    FONT_FAMILY_PRIMARY,
-    FONT_SIZE_BODY_SM,
-    FONT_WEIGHT_BOLD,
-    FONT_WEIGHT_MEDIUM,
-    FONT_WEIGHT_SEMIBOLD,
-  } from '@/constants/design/typography';
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
-export function NeedlistTable() {
+import { AllNeedListsDto } from '@/api/generated';
+import { StatusBadge } from '@/components/StatusBadge';
+import { COLORS } from '@/constants/design/colors';
+import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
+import {
+  FONT_FAMILY_PRIMARY,
+  FONT_SIZE_BODY_SM,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_MEDIUM,
+  FONT_WEIGHT_SEMIBOLD,
+} from '@/constants/design/typography';
+import { formatDate, formatNumber } from '@/utils/FormatUtils';
+
+// NEW: Accept needs as props
+type NeedlistTableProps = {
+  needs: AllNeedListsDto[];
+};
+
+export function NeedlistTable({ needs }: NeedlistTableProps) {
+  const itemCount = needs.length;
+  const countLabel = itemCount === 0
+    ? 'No items to display'
+    : `Showing ${itemCount} item${itemCount === 1 ? '' : 's'}`;
+
   return (
     <Box>
       <TableContainer sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: 700 }}>
           <TableHead>
             <TableRow sx={{ bgcolor: COLORS.surface }}>
-              {['ID', 'Need', 'Organization', 'Category', 'Quantity', 'Status', 'Action'].map((label) => (
+              {/* UPDATED: Column names to match API data */}
+              {['ID', 'Name', 'Status', 'Total Donated', 'Total Items', 'Due Date', 'Action'].map((label) => (
                 <TableCell
                   key={label}
                   sx={{
@@ -48,52 +59,45 @@ export function NeedlistTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {NEEDS.map((need) => (
+            {needs.map((need) => (
               <TableRow key={need.id} sx={{ '&:hover': { bgcolor: COLORS.accentYellowTint } }}>
                 <TableCell sx={{ fontFamily: FONT_FAMILY_PRIMARY, color: COLORS.mutedText }}>
                   {need.id}
                 </TableCell>
                 <TableCell>
+                  {/* UPDATED: Use API field name */}
                   <Typography sx={{ fontWeight: FONT_WEIGHT_BOLD, color: COLORS.primaryText }}>
-                    {need.title}
+                    {need.needlistName}
                   </Typography>
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText }}>{need.org}</TableCell>
                 <TableCell>
-                  <Box
-                    sx={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      px: 1.5,
-                      py: 0.5,
-                      borderRadius: 2,
-                      bgcolor: COLORS.surface,
-                      border: `1px solid ${COLORS.inputBorder}`,
-                    }}
-                  >
-                    <Typography
-                      sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}
-                    >
-                      {need.category}
-                    </Typography>
-                  </Box>
+                  {/* UPDATED: Use API field name */}
+                  <StatusBadge status={need.needlistStatus} />
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>{need.quantity}</TableCell>
-                <TableCell>
-                  <StatusBadge status={need.status} />
+                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>
+                  ${formatNumber(need.totalDonated)}
+                </TableCell>
+                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_MEDIUM }}>
+                  {formatNumber(need.totalItems)}
+                </TableCell>
+                <TableCell sx={{ color: COLORS.mutedText }}>
+                  {formatDate(need.dueDate)}
                 </TableCell>
                 <TableCell align="right">
                   <Box
                     component="button"
                     type="button"
                     title="View Details"
-                    style={{
+                    sx={{
                       background: 'transparent',
                       border: `1px solid ${COLORS.inputBorder}`,
                       borderRadius: '999px',
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} />
@@ -119,19 +123,22 @@ export function NeedlistTable() {
         }}
       >
         <Typography sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText }}>
-          Showing 1-7 of 24 items
+          {countLabel}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Box
             component="button"
             type="button"
-            style={{
+            sx={{
               background: COLORS.background,
               border: `1px solid ${COLORS.inputBorder}`,
               borderRadius: '8px',
               width: BUTTON_HEIGHT_SM,
               height: BUTTON_HEIGHT_SM,
               cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <ChevronLeft size={18} color={COLORS.mutedText} />
@@ -139,13 +146,16 @@ export function NeedlistTable() {
           <Box
             component="button"
             type="button"
-            style={{
+            sx={{
               background: COLORS.background,
               border: `1px solid ${COLORS.inputBorder}`,
               borderRadius: '8px',
               width: BUTTON_HEIGHT_SM,
               height: BUTTON_HEIGHT_SM,
               cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <ChevronRight size={18} color={COLORS.primaryText} />
