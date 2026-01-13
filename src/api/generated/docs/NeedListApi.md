@@ -4,75 +4,9 @@ All URIs are relative to */api*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**needListControllerCreate**](NeedListApi.md#needlistcontrollercreate) | **POST** /need-list |  |
 | [**needListControllerFindAll**](NeedListApi.md#needlistcontrollerfindall) | **GET** /need-list |  |
 | [**needListControllerFindOne**](NeedListApi.md#needlistcontrollerfindone) | **GET** /need-list/{id} |  |
 
-
-
-## needListControllerCreate
-
-> needListControllerCreate(createNeedListDto)
-
-
-
-### Example
-
-```ts
-import {
-  Configuration,
-  NeedListApi,
-} from '';
-import type { NeedListControllerCreateRequest } from '';
-
-async function example() {
-  console.log("🚀 Testing  SDK...");
-  const api = new NeedListApi();
-
-  const body = {
-    // CreateNeedListDto
-    createNeedListDto: ...,
-  } satisfies NeedListControllerCreateRequest;
-
-  try {
-    const data = await api.needListControllerCreate(body);
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Run the test
-example().catch(console.error);
-```
-
-### Parameters
-
-
-| Name | Type | Description  | Notes |
-|------------- | ------------- | ------------- | -------------|
-| **createNeedListDto** | [CreateNeedListDto](CreateNeedListDto.md) |  | |
-
-### Return type
-
-`void` (Empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: `application/json`
-- **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | Create a new need list |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## needListControllerFindAll
@@ -148,7 +82,7 @@ No authorization required
 
 ## needListControllerFindOne
 
-> needListControllerFindOne(id)
+> AllNeedListsDto needListControllerFindOne(id)
 
 
 
@@ -191,7 +125,7 @@ example().catch(console.error);
 
 ### Return type
 
-`void` (Empty response body)
+[**AllNeedListsDto**](AllNeedListsDto.md)
 
 ### Authorization
 
@@ -200,13 +134,13 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: `application/json`
 
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Get one need list by ID |  -  |
+| **200** | Successfully retrieved a single need list. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
