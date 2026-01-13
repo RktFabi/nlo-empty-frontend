@@ -8,6 +8,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { Link } from '@tanstack/react-router';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { AllNeedListsDto } from '@/api/generated';
@@ -85,8 +86,8 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 </TableCell>
                 <TableCell align="right">
                   <Box
-                    component="button"
-                    type="button"
+                    component={Link}
+                    to={`/admin/needlist-detail-view?needlistId=${need.id}`}
                     title="View Details"
                     sx={{
                       background: 'transparent',
@@ -95,9 +96,13 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
-                      display: 'flex',
+                      display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      textDecoration: 'none',
+                      '&:hover': {
+                        bgcolor: COLORS.surface,
+                      },
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} />
