@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { CheckCircle, Clock, XCircle } from 'lucide-react';
+import { CheckCircle, Clock, XCircle, Pencil } from 'lucide-react';
 import { ReactNode } from 'react';
 
 import { COLORS } from '@/constants/design/colors';
@@ -17,10 +17,10 @@ type StatusStyle = {
 };
 
 const STATUS_STYLES: Record<string, StatusStyle> = {
-  Active: {
+  Live: {
     color: COLORS.success,
     bg: COLORS.successTint,
-    border: COLORS.successTint,
+    border: COLORS.success,
     icon: (
       <Box
         component="span"
@@ -34,17 +34,17 @@ const STATUS_STYLES: Record<string, StatusStyle> = {
       />
     ),
   },
-  Pending: {
+  "In Review": {
     color: COLORS.accentYellow,
     bg: COLORS.accentYellowTint,
-    border: COLORS.accentYellowTint,
+    border: COLORS.accentYellow,
     icon: <Clock size={12}/>,
   },
-  Fulfilled: {
+  Draft: {
     color: COLORS.mutedText,
     bg: COLORS.surface,
     border: COLORS.inputBorder,
-    icon: <CheckCircle size={12} />,
+    icon: <Pencil size={12} />,
   },
   Failed: {
     color: COLORS.error,
