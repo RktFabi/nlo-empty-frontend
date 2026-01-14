@@ -6,7 +6,17 @@ import { Filter, Search } from 'lucide-react';
 
 export function NeedlistTableFilters() {
   return (
-    <Box>
+    <Box
+    sx={{
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row' },
+        gap: 2,
+        justifyContent: 'space-between',
+        alignItems: { xs: 'stretch', sm: 'center' },
+        p: 3,
+        borderBottom: `1px solid ${COLORS.inputBorder}`,
+        bgcolor: COLORS.background,
+      }}>
       <TextField
         placeholder="Search..."
         variant="outlined"
