@@ -4,10 +4,14 @@ import { FONT_SIZE_BODY_MD, FONT_WEIGHT_MEDIUM } from '@/constants/design/typogr
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import { Filter, Search } from 'lucide-react';
 
-export function NeedlistTableFilters() {
+type NeedlistTableFiltersProps = {
+    onSearch: (value: string) => void;
+};
+
+export function NeedlistTableFilters({ onSearch }: NeedlistTableFiltersProps) {
   return (
     <Box
-    sx={{
+      sx={{
         display: 'flex',
         flexDirection: { xs: 'column', sm: 'row' },
         gap: 2,
@@ -16,8 +20,10 @@ export function NeedlistTableFilters() {
         p: 3,
         borderBottom: `1px solid ${COLORS.inputBorder}`,
         bgcolor: COLORS.background,
-      }}>
+      }}
+    >
       <TextField
+        onChange={(e) => onSearch(e.target.value)}
         placeholder="Search..."
         variant="outlined"
         size="small"

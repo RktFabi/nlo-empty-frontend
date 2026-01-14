@@ -10,8 +10,11 @@ import { NeedlistTableHeader } from '@/features/admin/needlist-table-view/Needli
 import { getNeedlists } from '@/services/NeedListApiService';
 import { Box, CircularProgress, Typography } from '@mui/material'; // for loading
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export const NeedlistTableView = () => {
+  const [search, setSearch] = useState('');
+
   const needlistsQuery = useQuery<AllNeedListsDto[]>({
     queryKey: ['needlists'] as const,
     queryFn: async () => {
@@ -34,30 +37,32 @@ export const NeedlistTableView = () => {
 
   const needs = needlistsQuery.data ?? [];
 
+  const filteredNeeds = needs.filter((need) => need.needlistName.toLowerCase().includes(search.toLowerCase()));
+
   return (
     <PageBackground>
-        {isLoading
-            ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
-                <CircularProgress size={32} />
-              </Box>
-            )
-            : null}
-          {!isLoading && errorMessage
-            ? (
-              <Box sx={{ px: 4, py: 5 }}>
-                <Typography
-                  sx={{
-                    color: COLORS.error,
-                    fontSize: FONT_SIZE_BODY_MD,
-                    fontWeight: FONT_WEIGHT_MEDIUM,
-                  }}
-                >
-                  {errorMessage}
-                </Typography>
-              </Box>
-            )
-            : null}
+      {isLoading
+        ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+            <CircularProgress size={32} />
+          </Box>
+        )
+        : null}
+      {!isLoading && errorMessage
+        ? (
+          <Box sx={{ px: 4, py: 5 }}>
+            <Typography
+              sx={{
+                color: COLORS.error,
+                fontSize: FONT_SIZE_BODY_MD,
+                fontWeight: FONT_WEIGHT_MEDIUM,
+              }}
+            >
+              {errorMessage}
+            </Typography>
+          </Box>
+        )
+        : null}
       <Box sx={{ maxWidth: PAGE_MAX_WIDTH, mx: 'auto' }}>
         <NeedlistTableHeader />
 
@@ -70,8 +75,8 @@ export const NeedlistTableView = () => {
             overflow: 'hidden',
           }}
         >
-          <NeedlistTableFilters />
-          {!isLoading && !errorMessage ? <NeedlistTable needs={needs} /> : null}
+          <NeedlistTableFilters onSearch={setSearch} />
+          {!isLoading && !errorMessage ? <NeedlistTable needs={filteredNeeds} /> : null}
         </Box>
       </Box>
     </PageBackground>
