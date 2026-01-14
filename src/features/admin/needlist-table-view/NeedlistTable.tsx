@@ -33,6 +33,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 <TableCell
                   key={label}
                   sx={{
+                    textAlign: 'center',
                     textTransform: 'uppercase',
                     fontSize: FONT_SIZE_BODY_SM,
                     fontWeight: FONT_WEIGHT_SEMIBOLD,
@@ -55,28 +56,28 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 }}
               >
                 <TableCell
-                  sx={{ fontFamily: FONT_FAMILY_PRIMARY, color: COLORS.mutedText }}
+                  sx={{ textAlign: 'center', fontFamily: FONT_FAMILY_PRIMARY, color: COLORS.mutedText }}
                 >
                   {need.id}
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
                   <Typography sx={{ fontWeight: FONT_WEIGHT_BOLD, color: COLORS.primaryText }}>
                     {need.needlistName}
                   </Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
                   <StatusBadge status={need.needlistStatus} />
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_BOLD }}>
+                <TableCell sx={{ textAlign: 'center', color: COLORS.mutedText, fontWeight: FONT_WEIGHT_BOLD }}>
                   {need.totalItems}
                 </TableCell>
-                <TableCell sx={{ color: COLORS.mutedText, fontWeight: FONT_WEIGHT_BOLD }}>
+                <TableCell sx={{ textAlign: 'center', color: COLORS.mutedText, fontWeight: FONT_WEIGHT_BOLD }}>
                   {need.totalDonated}
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>
                   {need.dueDate}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell sx={{ textAlign: 'center' }}>
                   <Box
                     component={Link}
                     to={`/admin/needlist-detail-view?needlistId=${need.id}`}
@@ -87,8 +88,8 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                       background: 'transparent',
                       border: `1px solid ${COLORS.inputBorder}`,
                       borderRadius: '999px',
-                      width: BUTTON_HEIGHT_MD,
-                      height: BUTTON_HEIGHT_MD,
+                      width: BUTTON_HEIGHT_SM,
+                      height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
                     }}
                   >
