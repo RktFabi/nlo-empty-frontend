@@ -1,7 +1,7 @@
 import { AllNeedListsDto } from '@/api/generated';
 import { StatusBadge } from '@/components/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
-import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
+import { BUTTON_HEIGHT_MD, BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
 import {
   FONT_FAMILY_PRIMARY,
   FONT_SIZE_BODY_SM,
@@ -83,15 +83,16 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                     type="button"
                     title="View Details"
                     sx={{
+                      display: 'inline-flex',
                       background: 'transparent',
                       border: `1px solid ${COLORS.inputBorder}`,
                       borderRadius: '999px',
-                      width: BUTTON_HEIGHT_SM,
-                      height: BUTTON_HEIGHT_SM,
+                      width: BUTTON_HEIGHT_MD,
+                      height: BUTTON_HEIGHT_MD,
                       cursor: 'pointer',
                     }}
                   >
-                    <ArrowRight size={18} color={COLORS.primaryText} />
+                    <ArrowRight size={18} color={COLORS.primaryText} style={{ margin: 'auto' }} />
                   </Box>
                 </TableCell>
               </TableRow>
