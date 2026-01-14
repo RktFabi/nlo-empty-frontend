@@ -1,3 +1,4 @@
+import { AllNeedListsDto } from '@/api/generated';
 import { StatusBadge } from '@/components/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
@@ -9,8 +10,8 @@ import {
 } from '@/constants/design/typography';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { AllNeedListsDto } from '@/api/generated';
-import { formatDate, formatNumber } from '@/utils/FormatUtils';
+// import { formatDate, formatNumber } from '@/utils/FormatUtils';
+import { Link } from '@tanstack/react-router';
 
 type NeedlistTableProps = { // define the type of what we should pass to the Feature Component
   needs: AllNeedListsDto[],
@@ -73,11 +74,12 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                   {need.totalDonated}
                 </TableCell>
                 <TableCell>
-                  {formatDate(need.dueDate)}
+                  {need.dueDate}
                 </TableCell>
                 <TableCell align="right">
                   <Box
-                    component="button"
+                    component={Link}
+                    to={`/admin/needlist-detail-view?needlistId=${need.id}`}
                     type="button"
                     title="View Details"
                     sx={{
