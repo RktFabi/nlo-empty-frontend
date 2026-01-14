@@ -2,6 +2,7 @@ export const BACKEND_NOTION_URL = 'https://www.notion.so/needlist/Backend-API-Gu
 export const FRONTEND_NOTION_URL = 'https://www.notion.so/needlist/Frontend-Guide-2d4bd1695bad80ca9621d29accce51e4';
 
 // Temporary mock needs list for onboarding (to be replaced by backend data)
+/*
 export const NEEDS = [
   {
     id: 'NL-2024-001',
@@ -24,3 +25,4 @@ export const NEEDS = [
     date: 'Oct 22, 2024',
   },
 ];
+*/

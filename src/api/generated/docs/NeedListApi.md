@@ -5,6 +5,7 @@ All URIs are relative to */api*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**needListControllerFindAll**](NeedListApi.md#needlistcontrollerfindall) | **GET** /need-list |  |
+| [**needListControllerFindOne**](NeedListApi.md#needlistcontrollerfindone) | **GET** /need-list/{id} |  |
 
 
 
@@ -75,6 +76,71 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Successfully retrieved need lists. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## needListControllerFindOne
+
+> AllNeedListsDto needListControllerFindOne(id)
+
+
+
+### Example
+
+```ts
+import {
+  Configuration,
+  NeedListApi,
+} from '';
+import type { NeedListControllerFindOneRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const api = new NeedListApi();
+
+  const body = {
+    // string
+    id: id_example,
+  } satisfies NeedListControllerFindOneRequest;
+
+  try {
+    const data = await api.needListControllerFindOne(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**AllNeedListsDto**](AllNeedListsDto.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successfully retrieved A Single Need List |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

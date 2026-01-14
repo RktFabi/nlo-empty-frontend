@@ -1,4 +1,3 @@
-// Header section for needlist detail view with back link, ID, status, title, org info, and action buttons.
 import { Box, IconButton, Typography } from '@mui/material';
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, MapPin, Pencil, Store, Trash2 } from 'lucide-react';
@@ -17,8 +16,8 @@ type NeedlistDetailHeaderProps = {
   needlistId: string;
   title: string;
   status: string;
-  organizationName: string;
-  location: string;
+  organizationName: any;
+  location: any;
 };
 
 export function NeedlistDetailHeader({
