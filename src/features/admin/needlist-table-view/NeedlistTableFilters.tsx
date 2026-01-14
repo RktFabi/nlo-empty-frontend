@@ -1,5 +1,6 @@
 import { COLORS } from '@/constants/design/colors';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
+import { TABLE_CARD_RADIUS } from '@/constants/design/table_style';
 import { FONT_SIZE_BODY_MD, FONT_WEIGHT_MEDIUM } from '@/constants/design/typography';
 import { Box, IconButton, InputAdornment, TextField } from '@mui/material';
 import { Filter, Search } from 'lucide-react';

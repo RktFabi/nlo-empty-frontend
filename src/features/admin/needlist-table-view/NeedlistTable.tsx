@@ -8,7 +8,17 @@ import {
   FONT_WEIGHT_BOLD,
   FONT_WEIGHT_SEMIBOLD,
 } from '@/constants/design/typography';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 // import { formatDate, formatNumber } from '@/utils/FormatUtils';
 import { Link } from '@tanstack/react-router';
@@ -78,7 +88,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                   {need.dueDate}
                 </TableCell>
                 <TableCell sx={{ textAlign: 'center' }}>
-                  <Box
+                  <IconButton
                     component={Link}
                     to={`/admin/needlist-detail-view?needlistId=${need.id}`}
                     type="button"
@@ -91,10 +101,11 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
+                      '&:hover': { border: `2px solid ${COLORS.accentYellow}` },
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} style={{ margin: 'auto' }} />
-                  </Box>
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
