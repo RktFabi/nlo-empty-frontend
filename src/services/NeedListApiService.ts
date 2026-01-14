@@ -1,6 +1,7 @@
 import { needListApi } from '@/api/client';
 import { NeedListControllerFindAllRequest } from '@/api/generated';
 import { AllNeedListsDto } from '@/api/generated';
+import { ResponseError } from '@/api/generated/runtime';
 
 export const getNeedlists = async (
   params: NeedListControllerFindAllRequest = {},
@@ -9,6 +10,9 @@ export const getNeedlists = async (
     const response: AllNeedListsDto[] = await needListApi.needListControllerFindAll(params);
     return response;
   } catch (err) {
+    if (err instanceof ResponseError && err.response.status === 404) {
+      return [];
+    }
     console.error('get-needlists failed', err);
     return null;
   }

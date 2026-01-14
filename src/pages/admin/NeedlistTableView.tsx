@@ -19,8 +19,31 @@ export const NeedlistTableView = () => {
   const searchParams = useSearch({ from: '/admin/needlist-table-view' });
   const navigate = useNavigate({ from: '/admin/needlist-table-view' });
   const selectedId = searchParams.needlistId;
+  const nameFromUrl = searchParams.name ?? '';
+  const createdAtSort = searchParams.sort ?? 'created_at:desc';
+  const createdAtSortToApply = searchParams.sort === undefined
+    ? 'created_at:desc'
+    : createdAtSort === 'created_at:desc'
+    ? 'created_at:asc'
+    : 'created_at:desc';
 
   const [limit, setLimit] = React.useState(10);
+  const [nameInput, setNameInput] = React.useState(nameFromUrl);
+
+  React.useEffect(() => {
+    setNameInput(nameFromUrl);
+  }, [nameFromUrl]);
+
+  const debouncedNameInput = useDebouncedValue(nameInput, 300);
+  const nameQuery = debouncedNameInput.trim() === '' ? undefined : debouncedNameInput.trim();
+
+  React.useEffect(() => {
+    if (nameQuery === searchParams.name) return;
+    navigate({
+      search: (prev) => ({ ...prev, name: nameQuery, needlistId: undefined }),
+      replace: true,
+    });
+  }, [nameQuery, navigate, searchParams.name]);
 
   const handleChange = (event: SelectChangeEvent<number>) => {
     setLimit(Number(event.target.value));
@@ -35,12 +58,18 @@ export const NeedlistTableView = () => {
     navigate({ search: (prev) => ({ ...prev, needlistId: undefined }) });
   };
 
+  const handleApplyCreatedAtSort = () => {
+    navigate({ search: (prev) => ({ ...prev, sort: createdAtSortToApply }) });
+  };
+
   const request: NeedListControllerFindAllRequest = {
     limit: limit,
+    name: nameQuery,
+    sort: createdAtSort,
   };
 
   const needlistsQuery = useQuery<AllNeedListsDto[]>({
-    queryKey: ['needlists', limit] as const, // Added limit to key to trigger refetch
+    queryKey: ['needlists', limit, nameQuery, createdAtSort] as const,
     queryFn: async () => {
       const response = await getNeedlists(request);
       if (!response) throw new Error('Unable to load needlists right now.');
@@ -72,6 +101,11 @@ export const NeedlistTableView = () => {
           <NeedlistTableFilters
             value={limit}
             handleChange={handleChange}
+            searchValue={nameInput}
+            onSearchValueChange={setNameInput}
+            createdAtSort={createdAtSortToApply}
+            onToggleCreatedAtSort={handleApplyCreatedAtSort}
+            createdAtSortDisabled={nameInput.trim() !== ''}
           />
           
           {isLoading && (
@@ -107,3 +141,14 @@ export const NeedlistTableView = () => {
     </PageBackground>
   );
 };
+
+function useDebouncedValue<T>(value: T, delayMs: number): T {
+  const [debouncedValue, setDebouncedValue] = React.useState(value);
+
+  React.useEffect(() => {
+    const handle = setTimeout(() => setDebouncedValue(value), delayMs);
+    return () => clearTimeout(handle);
+  }, [value, delayMs]);
+
+  return debouncedValue;
+}

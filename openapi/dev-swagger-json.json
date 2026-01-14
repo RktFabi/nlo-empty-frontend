@@ -33,6 +33,13 @@
             "in": "query",
             "description": "Limit the number of results returned",
             "schema": { "example": 10, "type": "number" }
+          },
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Prefix search by need list name (starts-with)",
+            "schema": { "example": "Food", "type": "string" }
           }
         ],
         "responses": {

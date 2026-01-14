@@ -1,18 +1,34 @@
 // src/features/admin/needlist-table-view/NeedlistTable.tsx
-import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, Select, TextField, Tooltip } from '@mui/material';
 
 import { COLORS } from '@/constants/design/colors';
 import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
 import { FONT_SIZE_BODY_MD, FONT_WEIGHT_MEDIUM } from '@/constants/design/typography';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { Filter, Search } from 'lucide-react';
-import React from 'react';
+import { ArrowDown, ArrowUp, Search } from 'lucide-react';
 interface NeedlistTableFiltersProps {
   value: number;
   handleChange: (event: SelectChangeEvent<number>) => void;
+  searchValue: string;
+  onSearchValueChange: (value: string) => void;
+  createdAtSort: 'created_at:asc' | 'created_at:desc';
+  onToggleCreatedAtSort: () => void;
+  createdAtSortDisabled?: boolean;
 }
 
-export function NeedlistTableFilters({ value, handleChange }: NeedlistTableFiltersProps) {
+export function NeedlistTableFilters({
+  value,
+  handleChange,
+  searchValue,
+  onSearchValueChange,
+  createdAtSort,
+  onToggleCreatedAtSort,
+  createdAtSortDisabled,
+}: NeedlistTableFiltersProps) {
+  const createdAtLabel = createdAtSort === 'created_at:desc' ? 'Newest first' : 'Oldest first';
+  const sortTooltip = createdAtSortDisabled
+    ? 'Clear search to enable sorting'
+    : `Sort by Created At (${createdAtLabel})`;
   return (
     <Box
       sx={{
@@ -30,6 +46,8 @@ export function NeedlistTableFilters({ value, handleChange }: NeedlistTableFilte
         placeholder="Search..."
         variant="outlined"
         size="small"
+        value={searchValue}
+        onChange={(event) => onSearchValueChange(event.target.value)}
         sx={{
           width: { xs: '100%', sm: '360px' },
           '& .MuiInputBase-root': {
@@ -74,19 +92,26 @@ export function NeedlistTableFilters({ value, handleChange }: NeedlistTableFilte
         </FormControl>
       </Box>
 
-      <IconButton
-        sx={{
-          border: `1px solid ${COLORS.inputBorder}`,
-          borderRadius: 2,
-          color: COLORS.mutedText,
-          bgcolor: COLORS.background,
-          '&:hover': { bgcolor: COLORS.surface },
-          width: BUTTON_HEIGHT_SM,
-          height: BUTTON_HEIGHT_SM,
-        }}
-      >
-        <Filter size={18} />
-      </IconButton>
+      <Tooltip title={sortTooltip}>
+        <span>
+          <IconButton
+            aria-label={`Sort by created at: ${createdAtLabel}`}
+            onClick={onToggleCreatedAtSort}
+            disabled={createdAtSortDisabled}
+            sx={{
+              border: `1px solid ${COLORS.inputBorder}`,
+              borderRadius: 2,
+              color: COLORS.mutedText,
+              bgcolor: COLORS.background,
+              '&:hover': { bgcolor: COLORS.surface },
+              width: BUTTON_HEIGHT_SM,
+              height: BUTTON_HEIGHT_SM,
+            }}
+          >
+            {createdAtSort === 'created_at:desc' ? <ArrowDown size={18} /> : <ArrowUp size={18} />}
+          </IconButton>
+        </span>
+      </Tooltip>
     </Box>
   );
 }

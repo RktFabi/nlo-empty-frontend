@@ -11,7 +11,7 @@ All URIs are relative to */api*
 
 ## needListControllerFindAll
 
-> Array&lt;AllNeedListsDto&gt; needListControllerFindAll(sort, startAfter, limit)
+> Array&lt;AllNeedListsDto&gt; needListControllerFindAll(sort, startAfter, limit, name)
 
 
 
@@ -35,6 +35,8 @@ async function example() {
     startAfter: 150,2025-10-18T14:23:00Z,
     // number | Limit the number of results returned (optional)
     limit: 10,
+    // string | Prefix search by need list name (starts-with) (optional)
+    name: Food,
   } satisfies NeedListControllerFindAllRequest;
 
   try {
@@ -57,6 +59,7 @@ example().catch(console.error);
 | **sort** | `string` | Sort the need lists by specific fields | [Optional] [Defaults to `undefined`] |
 | **startAfter** | `string` | Pagination cursor (values from the last item’s sort fields) | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` | Limit the number of results returned | [Optional] [Defaults to `undefined`] |
+| **name** | `string` | Prefix search by need list name (starts-with) | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -147,4 +150,3 @@ No authorization required
 | **500** | Failed to retrieve need list by ID |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-

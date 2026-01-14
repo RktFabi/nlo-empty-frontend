@@ -26,6 +26,7 @@ export interface NeedListControllerFindAllRequest {
     sort?: string;
     startAfter?: string;
     limit?: number;
+    name?: string;
 }
 
 export interface NeedListControllerFindOneRequest {
@@ -52,6 +53,10 @@ export class NeedListApi extends runtime.BaseAPI {
 
         if (requestParameters['limit'] != null) {
             queryParameters['limit'] = requestParameters['limit'];
+        }
+
+        if (requestParameters['name'] != null) {
+            queryParameters['name'] = requestParameters['name'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
