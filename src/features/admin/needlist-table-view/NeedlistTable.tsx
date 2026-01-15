@@ -39,7 +39,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
 
   return (
     <Box>
-      <TableContainer sx={{ overflowX: 'hidden', overflowY:'hidden'}}>
+      <TableContainer sx={{ overflowX: 'hidden', overflowY: 'hidden' }}>
         <Table>
           <TableHead>
             <TableRow sx={{ bgcolor: COLORS.surface }}>
@@ -51,7 +51,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                     textTransform: 'uppercase',
                     fontSize: FONT_SIZE_BODY_SM,
                     fontWeight: FONT_WEIGHT_SEMIBOLD,
-                    letterSpacing: '0.08em',
+                    letterSpacing: '0.04em',
                     color: COLORS.mutedText,
                     borderBottom: `1px solid ${COLORS.inputBorder}`,
                   }}
@@ -67,7 +67,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                 key={need.id}
                 sx={{
                   transition: 'transform 0.8s ease, background-color 0.5s ease',
-                  '&:hover': { bgcolor: COLORS.accentYellowTint, transform: 'scale(1.02)' },
+                  '&:hover': { bgcolor: COLORS.accentBlueTint, transform: 'scale(1.02)' },
                 }}
               >
                 <TableCell
@@ -146,8 +146,7 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
               ':hover': { bgcolor: 'white', transform: 'scale(1.1)' },
             }}
           >
-            <ChevronLeft size={18} color={COLORS.mutedText} style={{ verticalAlign: 'middle' }} 
-            />
+            <ChevronLeft size={18} color={COLORS.mutedText} style={{ verticalAlign: 'middle' }} />
           </IconButton>
           <IconButton
             onClick={() => setDisplay(Math.min(display + 1, Math.floor(needs.length / 7)))}
