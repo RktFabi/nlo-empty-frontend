@@ -1,7 +1,7 @@
 import { AllNeedListsDto } from '@/api/generated';
 import { StatusBadge } from '@/components/StatusBadge';
 import { COLORS } from '@/constants/design/colors';
-import { BUTTON_HEIGHT_MD, BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
+import { BUTTON_HEIGHT_SM } from '@/constants/design/sizing';
 import {
   FONT_FAMILY_PRIMARY,
   FONT_SIZE_BODY_SM,
@@ -22,6 +22,7 @@ import {
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 // import { formatDate, formatNumber } from '@/utils/FormatUtils';
 import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
 
 type NeedlistTableProps = { // define the type of what we should pass to the Feature Component
   needs: AllNeedListsDto[],
@@ -33,9 +34,12 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
     ? 'No items to display'
     : `Showing ${itemCount} item${itemCount === 1 ? '' : 's'}`;
 
+  const [display, setDisplay] = useState(0);
+  const displayedRows = needs.slice(display * 7, (display + 1) * 7);
+
   return (
     <Box>
-      <TableContainer sx={{ overflowX: 'auto' }}>
+      <TableContainer sx={{ overflowX: 'hidden', overflowY:'hidden'}}>
         <Table>
           <TableHead>
             <TableRow sx={{ bgcolor: COLORS.surface }}>
@@ -58,11 +62,12 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {needs.map((need) => (
+            {displayedRows.map((need) => (
               <TableRow
                 key={need.id}
                 sx={{
-                  '&:hover': { bgcolor: COLORS.accentYellowTint },
+                  transition: 'transform 0.8s ease, background-color 0.5s ease',
+                  '&:hover': { bgcolor: COLORS.accentYellowTint, transform: 'scale(1.02)' },
                 }}
               >
                 <TableCell
@@ -95,13 +100,18 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
                     title="View Details"
                     sx={{
                       display: 'inline-flex',
-                      background: 'transparent',
+                      background: 'white',
                       border: `1px solid ${COLORS.inputBorder}`,
                       borderRadius: '999px',
+                      bgcolor: 'white',
                       width: BUTTON_HEIGHT_SM,
                       height: BUTTON_HEIGHT_SM,
                       cursor: 'pointer',
-                      '&:hover': { border: `2px solid ${COLORS.accentYellow}` },
+                      transition: 'box-shadow 0.8s',
+                      '&:hover': {
+                        boxShadow: '0 0 10px rgba(223, 193, 93, 1)',
+                        bgcolor: 'white',
+                      },
                     }}
                   >
                     <ArrowRight size={18} color={COLORS.primaryText} style={{ margin: 'auto' }} />
@@ -126,37 +136,28 @@ export function NeedlistTable({ needs }: NeedlistTableProps) {
         }}
       >
         <Typography sx={{ fontSize: FONT_SIZE_BODY_SM, color: COLORS.mutedText }}>
-          Showing 1-7 of 24 items
+          Showing {(display * 7) + 1}-{Math.min(itemCount, (display + 1) * 7)} of {itemCount} items
         </Typography>
         <Box>
-          <Box
-            component="button"
-            type="button"
+          <IconButton
+            onClick={() => setDisplay(Math.max(0, display - 1))}
             sx={{
-              background: COLORS.background,
-              border: `1px solid ${COLORS.inputBorder}`,
-              borderRadius: '8px',
-              width: BUTTON_HEIGHT_SM,
-              height: BUTTON_HEIGHT_SM,
-              cursor: 'pointer',
+              transition: 'transform 0.8s ease, background-color 0.5s ease',
+              ':hover': { bgcolor: 'white', transform: 'scale(1.1)' },
             }}
           >
-            <ChevronLeft size={18} color={COLORS.mutedText} />
-          </Box>
-          <Box
-            component="button"
-            type="button"
+            <ChevronLeft size={18} color={COLORS.mutedText} style={{ verticalAlign: 'middle' }} 
+            />
+          </IconButton>
+          <IconButton
+            onClick={() => setDisplay(Math.min(display + 1, Math.floor(needs.length / 7)))}
             sx={{
-              background: COLORS.background,
-              border: `1px solid ${COLORS.inputBorder}`,
-              borderRadius: '8px',
-              width: BUTTON_HEIGHT_SM,
-              height: BUTTON_HEIGHT_SM,
-              cursor: 'pointer',
+              transition: 'transform 0.8s ease, background-color 0.5s ease',
+              ':hover': { bgcolor: 'white', transform: 'scale(1.1)' },
             }}
           >
             <ChevronRight size={18} color={COLORS.mutedText} />
-          </Box>
+          </IconButton>
         </Box>
       </Box>
     </Box>
